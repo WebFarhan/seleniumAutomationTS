@@ -1,2 +1,2 @@
-# seleniumAutomationTS
-Selenium automation test cases for TS web app
+# seleniumAutomation
+Selenium automation test cases
