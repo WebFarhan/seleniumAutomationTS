@@ -28,6 +28,13 @@ public class StaticDropDown {
 		String currencyUSDTxt =  dropdown.getFirstSelectedOption().getText();
 		
 		System.out.println("Currency option selected: "+currencyUSDTxt);
+		
+		dropdown.selectByVisibleText("AED");
+		String currencyAEDTxt =  dropdown.getFirstSelectedOption().getText();
+		
+		System.out.println("Currency option selected: "+currencyAEDTxt);
+		
+		
 
 	}
 
