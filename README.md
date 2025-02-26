@@ -1,2 +1,5 @@
 # seleniumAutomation
-Selenium automation test cases
+Selenium automation test cases examples
+ - Wait Examples
+ - Dropdown Examples
+ - Autosuggestion Examples
