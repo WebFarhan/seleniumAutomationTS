@@ -1,8 +1,10 @@
 package seleniumAutomation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.hc.core5.util.Asserts;
 import org.openqa.selenium.By;
@@ -24,8 +26,6 @@ public class AutoSuggestDropdown {
 		// Create a map to store preferences
 		Map<String, Object> prefs = new HashMap<String, Object>();
 
-		// add key and value to map as follow to switch off browser notification
-		// Pass the argument 1 to allow and 2 to block
 		prefs.put("profile.default_content_setting_values.notifications", 2);
 
 		// Create an instance of ChromeOptions
@@ -33,11 +33,6 @@ public class AutoSuggestDropdown {
 
 		// set ExperimentalOption - prefs
 		options.setExperimentalOption("prefs", prefs);
-
-		// Now Pass ChromeOptions instance to ChromeDriver Constructor to initialize
-		// chrome driver which will switch off this browser notification on the chrome
-		// browser
-		// WebDriver driver = new ChromeDriver(options);
 
 		WebDriverManager.chromedriver().setup();
 		WebDriver driver = new ChromeDriver(options);
@@ -53,35 +48,51 @@ public class AutoSuggestDropdown {
 		Thread.sleep(2000);
 		driver.findElement(By.id("autosuggest")).sendKeys("ban");
 		Thread.sleep(3000);
-		List<WebElement> options = driver.findElements(By.cssSelector("li[class='ui-menu-item'] a"));
+		
+		//List<WebElement> options = driver.findElements(By.id("#ui-id-1"));
+		
+		List<WebElement> options = driver.findElements(By.cssSelector("li[class$='ui-menu-item'] a"));
 		
 		for(WebElement op:options) {
 			if(op.getText().equalsIgnoreCase("Bangladesh")) {
-				op.click();
+				System.out.println(op.getText());
 				Assert.assertEquals(op.getText(), "Bangladesh");
+				op.click();
+				Thread.sleep(4000);
 				break;
 			}
 		}
 		
+				
+		int noOfCheckBox = driver.findElements(By.xpath("//div[contains(@class,'home-Discount')]")).size();
+
+		List<String> checkBoxList = new ArrayList<>();
+		List<WebElement> optionsChk = driver.findElements(By.xpath("//div[contains(@class,'home-Discount')]"));
 		
-		Boolean chkFlag = driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).isSelected();
-		System.out.println("Before "+chkFlag);
+		for(WebElement op:optionsChk) {
+			System.out.println(op.getText());
+			checkBoxList.add(op.getText());
+		}
 		
+		/*
+		 List<String> cityList = new ArrayList<>();
+		 cityList.add("Delhi");
+		 cityList.add("Mumbai");
+		 cityList.add("Bangalore");
+		 cityList.add("Chennai");
+		 cityList.add("Kolkata");
+		 cityList.add("Mumbai");
+		*/
+		 //cityList = cityList.stream().distinct().collect(Collectors.toList());
+		 
+		 checkBoxList = checkBoxList.stream().distinct().collect(Collectors.toList());
 		
-		Assert.assertFalse(chkFlag);
-		
-		driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).click();
-		chkFlag = driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).isSelected();
-		System.out.println("After "+chkFlag);
-		
-		Assert.assertTrue(chkFlag);
-		
-		int noOfCheckBox = driver.findElements(By.cssSelector("input[type='checkbox']")).size();
+		 System.out.println("Refined checkbox list: "+checkBoxList.size());
 		
 		System.out.println("Number of check boxes in page: "+noOfCheckBox);
 		
 		//ul[@id='ui-id-1']/li[@class='ui-menu-item']/a[@id='ui-id-79']
 		
+		
 	}
-
 }

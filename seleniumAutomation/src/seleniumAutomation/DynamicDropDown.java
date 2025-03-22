@@ -9,6 +9,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -46,7 +47,7 @@ public class DynamicDropDown {
 		driver = chromeSetup();
 		
 		driver.get("https://www.spicejet.com/");
-		driver.manage().window().setSize(new Dimension(1500, 921));
+		driver.manage().window().setSize(new Dimension(1600, 1021));
 		Thread.sleep(2000);
 		
 		driver.findElement(By.xpath("//div[@data-testid='to-testID-origin']")).click();
@@ -57,6 +58,37 @@ public class DynamicDropDown {
 		driver.findElement(By.xpath("//div[@class='css-1dbjc4n r-14lw9ot r-z2wwpe r-1rjd0u6 r-1g94qm0 r-u8s1d r-8fdsdq']//div[contains(text(),'BLR')]")).click();
 		Thread.sleep(2000);
 		driver.findElement(By.xpath("//div[text()='Chennai']")).click();
+		
+		//.ui-state-default.ui-state-active
+		
+		driver.findElement(By.cssSelector(".ui-state-default.ui-state-active")).click();
+		
+		System.out.println(driver.findElement(By.name("ctl00$mainContent$view_date2")).isEnabled());
+
+		System.out.println(driver.findElement(By.id("Div1")).getDomAttribute("style"));
+
+		driver.findElement(By.id("ctl00_mainContent_rbtnl_Trip_1")).click();
+
+		System.out.println(driver.findElement(By.id("Div1")).getDomAttribute("style"));
+
+		if(driver.findElement(By.id("Div1")).getDomAttribute("style").contains("1"))
+
+		{
+
+
+		System.out.println("its enabled");
+
+		Assert.assertTrue(true);
+
+		}
+
+		else
+
+		{
+
+		Assert.assertTrue(false);
+
+		}
 
 	}
 
